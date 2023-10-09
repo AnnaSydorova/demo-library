@@ -1,7 +1,7 @@
 {
   "name": "demo-combined-search",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "author": "Anna Sydorova",
   "main": "dist/demo-combined-search.js",
@@ -16,11 +16,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "demo-button": "^0.2.0",
+    "demo-icon": "^0.2.0",
+    "demo-input": "^0.2.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "demo-input": "*",
-    "demo-button": "*",
-    "demo-icon": "*"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
