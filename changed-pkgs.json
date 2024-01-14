@@ -4,15 +4,15 @@
 
 [
   {
-    "name": "assessment-demo-combined-search",
+    "name": "assessment-demo-button",
     "version": "0.2.1",
     "private": false,
-    "location": "/home/runner/work/demo-library/demo-library/packages/demo-combined-search"
+    "location": "/home/runner/work/demo-library/demo-library/packages/demo-button"
   },
   {
-    "name": "assessment-demo-icon",
-    "version": "0.2.1",
+    "name": "assessment-demo-combined-search",
+    "version": "0.2.2",
     "private": false,
-    "location": "/home/runner/work/demo-library/demo-library/packages/demo-icon"
+    "location": "/home/runner/work/demo-library/demo-library/packages/demo-combined-search"
   }
 ]
