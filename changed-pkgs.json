@@ -1,0 +1,18 @@
+
+> find-changed-pkgs
+> lerna changed --json
+
+[
+  {
+    "name": "assessment-demo-combined-search",
+    "version": "0.2.1",
+    "private": false,
+    "location": "/home/runner/work/demo-library/demo-library/packages/demo-combined-search"
+  },
+  {
+    "name": "assessment-demo-icon",
+    "version": "0.2.1",
+    "private": false,
+    "location": "/home/runner/work/demo-library/demo-library/packages/demo-icon"
+  }
+]
