@@ -1,7 +1,7 @@
 {
   "name": "assessment-demo-combined-search",
   "private": false,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "author": "Anna Sydorova",
   "main": "dist/assessment-demo-combined-search.js",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "assessment-demo-button": "^0.2.1",
-    "assessment-demo-icon": "^0.2.1",
+    "assessment-demo-icon": "^0.2.2",
     "assessment-demo-input": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
