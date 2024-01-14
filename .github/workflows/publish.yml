@@ -1,39 +1,68 @@
-name: Publish NPM Packages with Lerna
-
+name: "Publish"
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
-  publish:
+  build_and_publish_package:
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: false
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Check out code
+        uses: actions/checkout@v3
         with:
-          node-version: 18.13.0
+          fetch-depth: 0
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
-      - name: Build Lerna
-        run: npx lerna run build
-
-      - name: Authenticate with NPM
-        run: echo "//registry.npmjs.org/:_authToken=${{  secrets.NPM_AUTH_TOKEN  }}" > ~/.npmrc
-
-      - name: Set up Git Authentication
+      - name: Install dependencies
         run: |
-          git config --global credential.helper store
-          git config --global credential.helper 'cache --timeout=3600'
-          git config --global user.name "AnnaSydorova"
-          git config --global user.email "mariafadeeva4155@gmail.com"
-          git remote set-url origin "https://AnnaSydorova:${{ secrets.GH_TOKEN }}@github.com/AnnaSydorova/demo-library.git"
+          npm install --legacy-peer-deps
 
-      - name: Publish NPM Packages
-        run: npx lerna publish minor --yes
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Log in to npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+
+      - name: Find changed packages
+        run: |
+          changedPkgsList=$(npm run find-changed-pkgs)
+          echo "$changedPkgsList" > changed-pkgs.json || echo "{}"
+
+      - name: Build changed packages
+        run: |
+          changedPkgs=$(cat changed-pkgs.json)
+          echo "Changed packages: $changedPkgs"
+
+          IFS=$'\n'
+          for pkg in $(echo "$changedPkgs" | jq -c '.[]'); do
+              pkgName=$(echo "$pkg" | jq -r .name | sed 's/^snmt-//')
+              echo "Building and publishing package: $pkgName"
+
+              cd src/packages/$pkgName
+              npm install --legacy-peer-deps
+              npm run build-package
+              cd ../../../
+          done
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "chore: commit changes for lerna publish"
+          git push origin main
+
+      - name: Publish changed packages
+        run: |
+          npx lerna publish 'patch' --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

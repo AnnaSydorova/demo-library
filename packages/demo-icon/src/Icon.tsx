@@ -14,7 +14,7 @@ function convertIconName(iconName: string) {
   return formattedName;
 }
 
-export const Icon = ({ name, size = 24, color = "black" }: IconProps) => {
+export const Icon = ({ name, size = 25, color = "black" }: IconProps) => {
   const formattedName = convertIconName(name);
 
   const IconComponent = icons[formattedName as keyof typeof icons] as IconType;
